@@ -71,12 +71,18 @@ st.markdown("### Feature Importance Locale")
 fig_force = shap.force_plot(explainer.expected_value, shap_values[0, :], random_observation_df.iloc[0, :])
 st_shap(fig_force, height=150)
 
-local_shap_values = shap_values[0, :]
-local_importance_df = pd.DataFrame({'Feature': random_observation_df.columns, 'SHAP Value': local_shap_values})
-local_importance_df = local_importance_df.sort_values(by='SHAP Value', ascending=False)
-top_5_local_importance = local_importance_df.head(5)
+local_importance = np.abs(shap_values).mean(axis=0)
+local_importance_df = pd.DataFrame({'Feature': random_observation_df.columns, 'Importance Relative': feature_importance})
+local_importance_df = local_importance_df.sort_values(by='Importance Relative', ascending=False)
+top_10_features = local_importance_df.head(10)
 
-st.table(top_5_local_importance)
+local_shap_values = shap_values[0, :]
+top_10_features['Valeur SHAP'] = [round(local_shap_values[random_observation_df.columns.get_loc(feature)], 2) for feature in top_10_features['Feature']]
+top_10_features['Direction'] = ['+' if value > 0 else '-' for value in top_10_features['Valeur SHAP']]
+top_10_features['Importance Relative'] = top_10_features['Importance Relative'].round(2)
+top_10_features = top_10_features[['Feature', 'Importance Relative', 'Direction', 'Valeur SHAP']]
+st.markdown("### Top 10 des Features par Importance Relative")
+st.table(top_10_features)
 
 selected_feature = st.selectbox('Selectionnez une 1ere feature :', top_20_features)
 selected_feature2 = st.selectbox('Selectionnez une 2eme feature :', top_20_features)
