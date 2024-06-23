@@ -71,7 +71,7 @@ st.markdown("### Feature Importance Locale")
 fig_force = shap.force_plot(explainer.expected_value, shap_values[0, :], random_observation_df.iloc[0, :])
 st_shap(fig_force, height=150)
 
-local_importance = np.abs(shap_values).mean(axis=0)
+local_importance = abs(shap_values).mean(axis=0)
 local_importance_df = pd.DataFrame({'Feature': random_observation_df.columns, 'Importance Relative': feature_importance})
 local_importance_df = local_importance_df.sort_values(by='Importance Relative', ascending=False)
 top_10_features = local_importance_df.head(10)
