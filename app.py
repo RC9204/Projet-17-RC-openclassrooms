@@ -77,8 +77,10 @@ local_importance_df = local_importance_df.sort_values(by='Importance Relative', 
 top_10_features = local_importance_df.head(10)
 
 local_shap_values = shap_values[0, :]
+top_10_features['Valeur SHAP'] = [local_shap_values[random_observation_df.columns.get_loc(feature)] for feature in top_10_features['Feature']]
+top_10_features['Direction'] = ['+' if value > 0 else '-' for value in top_10_features['Valeur SHAP']]
 top_10_features['Importance Relative'] = top_10_features['Importance Relative']
-top_10_features = top_10_features[['Feature', 'Importance Relative']]
+top_10_features = top_10_features[['Feature', 'Importance Relative', 'Direction']]
 top_10_features['Importance Relative'] = top_10_features['Importance Relative'].apply(lambda x: f'{x:.2f}')
 
 st.markdown("### Top 10 des Features par Importance Relative")
