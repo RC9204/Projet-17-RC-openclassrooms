@@ -4,7 +4,6 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# Charger le modèle
 modeleP17 = pickle.load(open('modele_P17.sav', 'rb'))
 df_modif_allege = pd.read_csv('df_modif_allege.csv')
 
