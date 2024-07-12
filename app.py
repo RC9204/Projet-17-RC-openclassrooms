@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 import os
+import requests
+import json
 import pickle
 import pandas as pd
 import lightgbm as lgb
@@ -28,11 +30,9 @@ def predict():
         features = client_data.drop(columns=['SK_ID_CURR']).values.reshape(1, -1)
         
         prediction = modeleP17.predict(features)[0]
-        probability = modeleP17.predict_proba(features)[0, 1]
         
         result = {
-            'prediction': int(prediction),
-            'probability': float(probability)
+            'prediction': int(prediction)
         }
         return jsonify(result)
     
