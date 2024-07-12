@@ -1,8 +1,6 @@
-streamlit
-numpy<2.0.0
+flask
+numpy
 pandas
-shap
-lightgbm
-matplotlib
 scikit-learn
-Flask
+shap
+gunicorn
