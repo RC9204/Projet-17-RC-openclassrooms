@@ -1,7 +1,5 @@
 from flask import Flask, request, jsonify
 import os
-import requests
-import json
 import pickle
 import pandas as pd
 import lightgbm as lgb
