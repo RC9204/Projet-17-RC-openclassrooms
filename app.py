@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import pickle
 import pandas as pd
+import lightgbm
 
 app = Flask(__name__)
 
