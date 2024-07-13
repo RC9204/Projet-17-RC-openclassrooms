@@ -3,12 +3,14 @@ import os
 import pickle
 import pandas as pd
 import lightgbm as lgb
+import shap
 
 app = Flask(__name__)
 
 modeleP17 = pickle.load(open('modele_P17.sav', 'rb'))
 df_modif_allege = pd.read_csv('df_modif_allege.csv')
 sub_X_test = df_modif_allege.drop(columns=['TARGET','index'])
+explainer = shap.TreeExplainer(modeleP17)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -26,9 +28,16 @@ def predict():
             return jsonify({'error': 'Client not found'}), 404
         
         prediction = modeleP17.predict(client_data)
-        
+
+        local_shap_values = explainer.shap_values(client_data)
+        local_shap_values_list = shap_values[0].tolist()
+
         result = {
             'prediction': float(prediction)
+            'local_shap_values': local_shap_values_list,
+            'expected_value': explainer.expected_value.tolist() if hasattr(explainer, 'expected_value') else None,
+            'features': client_data.columns.tolist(),
+            'client_data': client_data.values.tolist()[0]
         }
         return jsonify(result)
     
