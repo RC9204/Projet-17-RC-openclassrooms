@@ -30,7 +30,7 @@ def predict():
         prediction = modeleP17.predict(features)[0]
         
         result = {
-            'prediction': int(prediction)
+            'prediction': float(prediction)
         }
         return jsonify(result)
     
