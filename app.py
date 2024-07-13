@@ -27,9 +27,8 @@ def predict():
         
         prediction = modeleP17.predict(client_data)
         
-        result = {
-            'prediction': float(prediction)
-        }
+        result = float(prediction)
+
         return jsonify(result)
     
     except Exception as e:
