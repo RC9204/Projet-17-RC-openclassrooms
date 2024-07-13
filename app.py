@@ -33,7 +33,7 @@ def predict():
         local_shap_values_list = shap_values[0].tolist()
 
         result = {
-            'prediction': float(prediction)
+            'prediction': float(prediction),
             'local_shap_values': local_shap_values_list,
             'expected_value': explainer.expected_value.tolist() if hasattr(explainer, 'expected_value') else None,
             'features': client_data.columns.tolist(),
