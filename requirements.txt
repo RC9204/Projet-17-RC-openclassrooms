@@ -1,7 +1,6 @@
 numpy
 pandas
 scikit-learn
-shap
 Flask
 gunicorn
 pandas
