@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 modeleP17 = pickle.load(open('modele_P17.sav', 'rb'))
 df_modif_allege = pd.read_csv('df_modif_allege.csv')
-sub_X_test = df_modif_allege.drop(columns=['TARGET'])
+sub_X_test = df_modif_allege.drop(columns=['TARGET','index'])
 
 @app.route('/', methods=['GET'])
 def home():
@@ -25,9 +25,7 @@ def predict():
         if client_data.empty:
             return jsonify({'error': 'Client not found'}), 404
         
-        features = client_data.drop(columns=['SK_ID_CURR']).values.reshape(1, -1)
-        
-        prediction = modeleP17.predict(features)[0]
+        prediction = modeleP17.predict(client_data)
         
         result = {
             'prediction': float(prediction)
